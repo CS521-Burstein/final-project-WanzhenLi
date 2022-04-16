@@ -1,0 +1,58 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
+
+housing_price = pd.read_csv("Housing_Price.csv")
+
+housing_price
+housing_price['MSZoning'] = housing_price['MSZoning'].map({'RL':0,'RM':1,'FV':2,'RH':3,'C (all)':4})
+housing_price['Street'] = housing_price['Street'].map({'Pave':0,'Grvl':1})
+housing_price['Alley'] = housing_price['Alley'].map({'Pave':0,'Grvl':1})
+housing_price['LotShape'] = housing_price['LotShape'].map({'Reg':0,'IR1':1,'IR2':2,'IR3':3})
+housing_price['LandContour'] = housing_price['LandContour'].map({'Lvl ':0,'HLS':1,'Bnk':2,'Low':3})
+housing_price['Utilities'] = housing_price['Utilities'].map({'AllPub':0,'NoSeWa':1})
+housing_price['LotConfig'] = housing_price['LotConfig'].map({'Inside':0,'Corner':1,'CulDSac':2,'FR2':3,'FR3':4})
+housing_price['LandSlope'] = housing_price['LandSlope'].map({'Gtl':0,'Mod':1,'Sev':2})
+housing_price['Neighborhood'] = housing_price['Neighborhood'].map({'NAmes':0,'CollgCr':1,'OldTown':2,'Edwards':3,'Somerst':4,'NridgHt':5,'Gilbert':6,'Sawyer':7,'NWAmes':8,'SawyerW':9,'Mitchel':10,'BrkSide':11,'Crawfor':12,'IDOTRR':13,'Timber':14,'NoRidge':15,'StoneBr':16,'SWISU':17,'ClearCr':18,'MeadowV':19,'BrDale':20,'Blmngtn':21,'Veenker':22,'NPkVill':23,'Blueste':24})
+housing_price['Condition1'] = housing_price['Condition1'].map({'Norm':0,'Feedr':1,'Artery':2,'RRAn':3,'PosN':4,'RRAe':5,'PosA':6,'RRNn':7,'RRNe':8})
+housing_price['Condition2'] = housing_price['Condition2'].map({'Norm':0,'Feedr':1,'Artery':2,'RRAn':3,'PosN':4,'RRAe':5,'PosA':6,'RRNn':8})
+housing_price['BldgType'] = housing_price['BldgType'].map({'1Fam':0,'TwnhsE':1,'Duplex':2,'Twnhs':3,'2fmCon':4})
+housing_price['HouseStyle'] = housing_price['HouseStyle'].map({'1Story':0,'2Story':1,'1.5Fin':2,'SLvl':3,'SFoyer':4,'2.5Unf':5,'1.5Unf':6,'2.5Fin':7})
+housing_price['RoofStyle'] = housing_price['RoofStyle'].map({'Gable':0,'Hip':1,'Gambrel':2,'Flat':3,'Mansard':4,'Shed':5})
+housing_price['RoofMatl'] = housing_price['RoofMatl'].map({'CompShg':0,'Tar&Grv':1,'WdShake':2,'WdShngl':3,'Metal':4,'Membran':5,'Roll':6,'ClyTile':7})
+housing_price['Exterior1st'] = housing_price['Exterior1st'].map({'VinylSd':0,'MetalSd':1,'HdBoard':2,'Wd Sdng':3,'Plywood':4,'CemntBd':5,'BrkFace':6,'WdShing':7,'AsbShng':8,'Stucco':9,'BrkComm':10,'AsphShn':11,'Stone':12,'CBlock':13,'ImStucc':14})
+housing_price['Exterior2nd'] = housing_price['Exterior2nd'].map({'VinylSd':0,'MetalSd':1,'HdBoard':2,'Wd Sdng':3,'Plywood':4,'CemntBd':5,'BrkFace':6,'Wd Shng':7,'AsbShng':8,'Stucco':9,'Brk Cmn':10,'AsphShn':11,'Stone':12,'CBlock':13,'ImStucc':14,'other':15})
+housing_price['MasVnrType'] = housing_price['MasVnrType'].map({'None':0,'BrkFace':1,'Stone':2,'BrkCmn':3})
+housing_price['ExterQual'] = housing_price['ExterQual'].map({'TA':0,'Gd':1,'Ex':2,'Fa':3})
+housing_price['ExterCond'] = housing_price['ExterCond'].map({'TA':0,'Gd':1,'Ex':2,'Fa':3,'Po':4})
+housing_price['Foundation'] = housing_price['Foundation'].map({'PConc':0,'CBlock':1,'BrkTil':2,'Slab':3,'Stone':4,'Wood':5})
+housing_price['BsmtQual'] = housing_price['BsmtQual'].map({'TA':0,'Gd':1,'Ex':2,'Fa':3})
+housing_price['BsmtCond'] = housing_price['BsmtCond'].map({'TA':0,'Gd':1,'Po':2,'Fa':3})
+housing_price['BsmtExposure'] = housing_price['BsmtExposure'].map({'No':0,'Av':1,'Gd':2,'Mn':3})
+housing_price['BsmtFinType1'] = housing_price['BsmtFinType1'].map({'Unf':0,'GLQ':1,'ALQ':2,'Rec':3,'BLQ':4,'LwQ':5})
+housing_price['BsmtFinType2'] = housing_price['BsmtFinType2'].map({'Unf':0,'GLQ':1,'ALQ':2,'Rec':3,'BLQ':4,'LwQ':5})
+housing_price['Heating'] = housing_price['Heating'].map({'GasA':0,'GasW':1,'Grav':2,'Wall':3,'OthW':4,'Floor':5})
+housing_price['HeatingQC'] = housing_price['HeatingQC'].map({'TA':0,'Gd':1,'Ex':2,'Fa':3,'Po':4})
+housing_price['CentralAir'] = housing_price['CentralAir'].map({'Y':0,'N':1})
+housing_price['Electrical'] = housing_price['Electrical'].map({'SBrkr':0,'FuseA':1,'FuseF':2,'FuseP':3,'Mix':4})
+housing_price['KitchenQual'] = housing_price['KitchenQual'].map({'TA':0,'Gd':1,'Ex':2,'Fa':3})
+housing_price['Functional'] = housing_price['Functional'].map({'Typ':0,'Min1':1,'Min2':2,'Mod':3,'Maj1':4,'Maj2':5,'Sev':6})
+housing_price['FireplaceQu'] = housing_price['FireplaceQu'].map({'TA':0,'Gd':1,'Ex':2,'Fa':3,'Po':4})
+housing_price['GarageType'] = housing_price['GarageType'].map({'Attchd':0,'Detchd':1,'BuiltIn':2,'Basment':3,'2Types':4,'CarPort':5})
+housing_price['GarageFinish'] = housing_price['GarageFinish'].map({'Unf':0,'RFn':1,'Fin':2})
+housing_price['GarageQual'] = housing_price['GarageQual'].map({'TA':0,'Gd':1,'Ex':2,'Fa':3,'Po':4})
+housing_price['GarageCond'] = housing_price['GarageCond'].map({'TA':0,'Gd':1,'Ex':2,'Fa':3,'Po':4})
+housing_price['PavedDrive'] = housing_price['PavedDrive'].map({'Y':0,'N':1,'P':2})
+housing_price['PoolQC'] = housing_price['PoolQC'].map({'Fa':0,'Gd':1,'Ex':2})
+housing_price['Fence'] = housing_price['Fence'].map({'MnPrv':0,'GdPrv':1,'GdWo':2,'MnWw':3})
+housing_price['MiscFeature'] = housing_price['MiscFeature'].map({'Shed':0,'Gar2':1,'Othr':2,'TenC':3})
+housing_price['SaleType'] = housing_price['SaleType'].map({'WD':0,'New':1,'COD':2,'ConLD':3,'CWD':4,'ConLI':5,'ConLw':6,'Oth':7,'Con':8})
+housing_price['SaleCondition'] = housing_price['SaleCondition'].map({'Normal':0,'Partial':1,'Abnorml':2,'Family':3,'Alloca':4,'AdjLand':5})
+housing_price
+
+pd.set_option('display.max_columns', None)
+hp_corrmat = housing_price.corr('pearson')
+hp_corrmat
+
+
